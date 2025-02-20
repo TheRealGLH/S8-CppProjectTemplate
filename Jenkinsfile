@@ -22,6 +22,18 @@ pipeline {
                 }
             }
         }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sleep 20
+                echo 'All done!'
+            }
+        }
+        stage('Save artifacts') {
+            steps {
+                archiveArtifacts allowEmptyArchive: true, artifacts: '**/*.exe', followSymlinks: false, onlyIfSuccessful: true
+            }
+        }
     }
     post {
       always {
