@@ -27,7 +27,7 @@ resource "docker_container" "cpp-build" {
     logs = true
     #This series of strings is what we use to add any additional options/ input to 
     #the container's entry point, which is /usr/bin/cmake
-    command = ["--help"]
+    command = [". -B build"]
     name  = "cpp-builder"
     ports {
         internal = 80
