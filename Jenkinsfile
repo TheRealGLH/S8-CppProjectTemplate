@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Check out configuration repo') {
             steps{
-                git branch: 'main', credentialsId: 'S8-JenkinsID', url: 'ssh://git@bitbucket.local:23/s8/cpp-template.git'
+                git branch: 'master', credentialsId: 'S8-JenkinsID', url: 'ssh://git@bitbucket.local:23/s8/cpp-template.git'
             }
         }
         stage('Start Tofu') {
