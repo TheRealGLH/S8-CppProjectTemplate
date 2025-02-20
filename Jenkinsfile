@@ -25,7 +25,6 @@ pipeline {
     }
     post {
       always {
-            archiveArtifacts artifacts: '**/*.exe', followSymlinks: false
             dir('terraform') {
                 sh 'tofu destroy -auto-approve'
             }
