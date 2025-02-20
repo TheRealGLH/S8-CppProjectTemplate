@@ -14,6 +14,7 @@ pipeline {
         }
         stage('Start Tofu') {
             steps {
+                sh 'ls -la'
                 dir('terraform') {
                     sh 'tofu destroy -auto-approve'
                     sh 'tofu init'
