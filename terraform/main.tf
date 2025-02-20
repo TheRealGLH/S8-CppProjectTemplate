@@ -30,21 +30,22 @@ resource "docker_container" "cpp-build" {
     #It will exit when we finish building!
     must_run = false
     logs = true
-    #This series of strings is what we use to add any additional options/ input to 
-    #the container's entry point, which is /usr/bin/cmake
-    #entrypoint = ["ls"]
+    #entrypoint = ["whoami"]
     mounts {
         target = local.docker_cpp_project_dir
         #FIXME: Lazy proof of concept hack:
         #We're running our Jenkins in a docker instance whilst using our host's docker daemon as our agent.
         #Docker does not like this and can't find the folder Jenkins reports as the folder 
         #Ideally we use the value local.parent_dir, but we'll do that if we ever bother adding a different agent to run our jobs
-        source = "/home/martijn/jenkins/workspace/S8-Terraform"
-        #source = local.parent_dir
+        #source = "/home/martijn/jenkins/workspace/S8-Terraform"
+        source = local.parent_dir
         type = "bind"
     }
     working_dir = local.docker_cpp_project_dir
+    #This series of strings is what we use to add any additional options/ input to 
+    #the container's entry point, which is /usr/bin/cmake
     command = [".", "-B", "build"]
+    user = "root"
     name  = "cpp-builder"
     ports {
         internal = 80
