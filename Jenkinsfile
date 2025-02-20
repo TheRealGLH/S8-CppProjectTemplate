@@ -24,6 +24,7 @@ pipeline {
     }
     post {
       always {
+            cleanWs()
           dir('terraform') {
               sh 'tofu destroy -auto-approve'
           }
