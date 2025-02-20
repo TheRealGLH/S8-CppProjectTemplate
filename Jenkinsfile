@@ -25,9 +25,10 @@ pipeline {
     }
     post {
       always {
-          dir('terraform') {
-              sh 'tofu destroy -auto-approve'
-          }
+            archiveArtifacts artifacts: '**/*.exe', followSymlinks: false
+            dir('terraform') {
+                sh 'tofu destroy -auto-approve'
+            }
             cleanWs()
       }
     }

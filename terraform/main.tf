@@ -6,6 +6,11 @@ terraform {
     }
   }
 }
+locals {
+    tf_dir = dirname(path.module) 
+    parent_dir = abspath("${local.tf_dir}/..")
+    docker_cpp_project_dir = "/usr/src/project"
+}
 
 provider "docker" {}
 
@@ -27,7 +32,14 @@ resource "docker_container" "cpp-build" {
     logs = true
     #This series of strings is what we use to add any additional options/ input to 
     #the container's entry point, which is /usr/bin/cmake
-    command = [". -B build"]
+    #entrypoint = ["ls"]
+    mounts {
+        target = local.docker_cpp_project_dir
+        source = local.parent_dir
+        type = "bind"
+    }
+    working_dir = local.docker_cpp_project_dir
+    command = [".", "-B", "build"]
     name  = "cpp-builder"
     ports {
         internal = 80
