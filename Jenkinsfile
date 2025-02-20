@@ -9,12 +9,12 @@ pipeline {
         }
         stage('Check out configuration repo') {
             steps{
-                git branch: 'main', credentialsId: 'S8-JenkinsID', url: 'git@github.com:TheRealGLH/S8-CICD-protos.git'
+                git branch: 'main', credentialsId: 'S8-JenkinsID', url: 'ssh://git@bitbucket.local:23/s8/cpp-template.git'
             }
         }
         stage('Start Tofu') {
             steps {
-                dir('opentf-jenkins/hello-world-docker') {
+                dir('terraform') {
                     sh 'tofu destroy -auto-approve'
                     sh 'tofu init'
                     sh 'tofu apply -auto-approve'
@@ -24,7 +24,7 @@ pipeline {
     }
     post {
       always {
-          dir('opentf-jenkins/hello-world-docker') {
+          dir('terraform') {
               sh 'tofu destroy -auto-approve'
           }
       }
