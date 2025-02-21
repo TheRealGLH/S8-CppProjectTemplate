@@ -1,15 +1,17 @@
-terraform {
-  required_providers {
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = "~> 3.0.1"
-    }
-  }
-}
 locals {
     tf_dir = dirname(path.module) 
     parent_dir = abspath("${local.tf_dir}/..")
     docker_cpp_project_dir = "/usr/src/project"
+}
+
+variable "docker_build_host_mount" {
+    default =   "/home/martijn/jenkins/workspace/S8-Terraform"
+    type = string
+}
+
+variable "docker_build_user" {
+    default = "root"
+    type = string
 }
 
 provider "docker" {}
@@ -37,7 +39,7 @@ resource "docker_container" "cpp-build" {
         #We're running our Jenkins in a docker instance whilst using our host's docker daemon as our agent.
         #Docker does not like this and can't find the folder Jenkins reports as the folder 
         #Ideally we use the value local.parent_dir, but we'll do that if we ever bother adding a different agent to run our jobs
-        source = "/home/martijn/jenkins/workspace/S8-Terraform"
+        source = var.docker_build_host_mount 
         #source = local.parent_dir
         type = "bind"
     }
@@ -45,7 +47,7 @@ resource "docker_container" "cpp-build" {
     #This series of strings is what we use to add any additional options/ input to 
     #the container's entry point, which is /usr/bin/cmake
     command = [".", "-B", "build"]
-    user = "root"
+    user = var.docker_build_user
     name  = "cpp-builder"
     ports {
         internal = 80
