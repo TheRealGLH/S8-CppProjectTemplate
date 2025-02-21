@@ -8,5 +8,9 @@ terraform {
             source = "nikhilsbhat/k3d"
             version = "0.0.2"
         }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+    }
+
   }
 }
