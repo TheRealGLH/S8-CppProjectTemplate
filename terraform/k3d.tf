@@ -4,8 +4,8 @@ resource "k3d_cluster" "sample_cluster" {
   agents_count  = 2
   //  image = "rancher/k3s:v1.24.4-k3s1"
   kube_api {
-    host_ip   = "0.0.0.0"
-    host_port = 6445
+    host_ip   = "127.0.0.1"
+    host_port = 6443
   }
   //
   //  ports {
@@ -20,6 +20,15 @@ resource "k3d_cluster" "sample_cluster" {
     no_loadbalancer = false
     no_image_volume = false
   }
+
+    
+    #k3s_options {
+
+    #extra_args  {
+    #key = "env"
+    #value = "TZ=Europe/Berlin@server:0"
+    #}
+    #}
 
   kube_config {
     update_default = true
