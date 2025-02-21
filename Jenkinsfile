@@ -16,7 +16,7 @@ pipeline {
             steps {
                 sh 'ls -la'
                 dir('terraform') {
-                    sh 'tofu destroy -auto-approve'
+                    //sh 'tofu destroy -auto-approve'
                     sh 'tofu init'
                     sh 'tofu apply -auto-approve'
                 }
