@@ -1,2 +1,0 @@
-docker_build_host_mount = local.parent_dir
-docker_build_user = "builder"
